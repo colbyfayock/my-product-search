@@ -15,11 +15,31 @@ import styles from '@styles/Home.module.scss';
 export default function Home({ products, categories }) {
   const [searchQuery, setSearchQuery] = useState();
   const [searchCategory, setSearchCategory] = useState();
+  const [searchResults, setSearchResults] = useState();
+
+  const activeProducts = searchQuery?.length && searchResults ? searchResults : products;
 
   // Add debouncing when setting query state to avoid making quick, repetitive
   // requests for every single letter typed
 
   const debouncedSetSearchQuery = useDebouncedCallback((value) => setSearchQuery(value), 500);
+
+  useEffect(() => {
+    if ( !searchQuery ) {
+      setSearchResults(undefined);
+      return;
+    };
+
+    (async function run() {
+      const { products } = await fetch('/api/search', {
+        method: 'POST',
+        body: JSON.stringify({
+          query: searchQuery
+        })
+      }).then(r => r.json());
+      setSearchResults(products);
+    })();
+  }, [searchQuery]);
 
   /**
    * handleOnSearch
@@ -87,7 +107,7 @@ export default function Home({ products, categories }) {
           <h2 className="sr-only">Products</h2>
 
           <ul className={styles.products}>
-            {products.map(product => {
+            {activeProducts.map(product => {
               return (
                 <li key={product.id}>
                   <a className={styles.productImageWrapper} href={product.productUrl} rel="noopener noreferrer">
