@@ -16,8 +16,10 @@ export default function Home({ products, categories }) {
   const [searchQuery, setSearchQuery] = useState();
   const [searchCategory, setSearchCategory] = useState();
   const [searchResults, setSearchResults] = useState();
+  const [searchCategories, setSearchCategories] = useState();
 
   const activeProducts = searchQuery?.length && searchResults ? searchResults : products;
+  const activeCategories = searchCategories?.filter(({ name }) => !!name) || [];
 
   // Add debouncing when setting query state to avoid making quick, repetitive
   // requests for every single letter typed
@@ -40,6 +42,13 @@ export default function Home({ products, categories }) {
       setSearchResults(products);
     })();
   }, [searchQuery]);
+
+  useEffect(() => {
+    (async function run() {
+      const { categories } = await fetch('/api/categories').then(r => r.json());
+      setSearchCategories(categories);
+    })();
+  }, []);
 
   /**
    * handleOnSearch
@@ -88,13 +97,13 @@ export default function Home({ products, categories }) {
                       All
                     </label>
                   </li>
-                  { categories.map(category => {
+                  { activeCategories.map(category => {
                     return (
                       <li key={category}>
                         <label className={styles.radio}>
-                          <input className="sr-only" type="radio" name="category" value={category} />
+                          <input className="sr-only" type="radio" name="category" value={category.name} />
                           <span><FaCheck /></span>
-                          { category }
+                          { category.name } ({ category.count })
                         </label>
                       </li>
                     )
