@@ -1,0 +1,7 @@
+{
+  "databaseURL": "https://My-Workspace-haalr5.us-east-1.xata.sh/db/my-cool-store",
+  "codegen": {
+    "output": "src/lib/xata.js",
+    "moduleType": "esm"
+  }
+}

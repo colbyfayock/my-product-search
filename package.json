@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@xata.io/client": "^0.21.6",
     "csv-loader": "^3.0.5",
     "next": "13.0.6",
     "react": "18.2.0",

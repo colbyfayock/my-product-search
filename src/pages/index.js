@@ -4,13 +4,13 @@ import Image from 'next/image';
 import { FaStar, FaCheck } from 'react-icons/fa';
 import { useDebouncedCallback } from 'use-debounce';
 
+import { getXataClient } from 'src/lib/xata';
+
 import Layout from '@components/Layout';
 import Section from '@components/Section';
 import Container from '@components/Container';
 
 import styles from '@styles/Home.module.scss';
-
-import amazonProducts from '@data/amazoncom-sample-50.csv';
 
 export default function Home({ products, categories }) {
   const [searchQuery, setSearchQuery] = useState();
@@ -110,15 +110,12 @@ export default function Home({ products, categories }) {
 }
 
 export async function getStaticProps() {
-  const products = amazonProducts.map(product => {
-    return {
-      id: product['Uniq Id'],
-      productName: product['Product Name'],
-      category: product['Category'],
-      sellingPrice: product['Selling Price'],
-      image: product['Image'],
-      productUrl: product['Product Url'],
-    }
+  const xata = getXataClient();
+
+  const { records: products } = await xata.db.products.getPaginated({
+    pagination: {
+      size: 15,
+    },
   });
 
   const categories = Array.from(new Set(products.map(({ category }) => category))).filter(c => !!c).sort();
