@@ -18,7 +18,7 @@ export default function Home({ products, categories }) {
   const [searchResults, setSearchResults] = useState();
   const [searchCategories, setSearchCategories] = useState();
 
-  const activeProducts = searchQuery?.length && searchResults ? searchResults : products;
+  const activeProducts = searchResults || products;
   const activeCategories = searchCategories?.filter(({ name }) => !!name) || [];
 
   // Add debouncing when setting query state to avoid making quick, repetitive
@@ -27,7 +27,7 @@ export default function Home({ products, categories }) {
   const debouncedSetSearchQuery = useDebouncedCallback((value) => setSearchQuery(value), 500);
 
   useEffect(() => {
-    if ( !searchQuery ) {
+    if ( !searchQuery && !searchCategory ) {
       setSearchResults(undefined);
       return;
     };
@@ -36,12 +36,13 @@ export default function Home({ products, categories }) {
       const { products } = await fetch('/api/search', {
         method: 'POST',
         body: JSON.stringify({
-          query: searchQuery
+          query: searchQuery,
+          category: searchCategory
         })
       }).then(r => r.json());
       setSearchResults(products);
     })();
-  }, [searchQuery]);
+  }, [searchQuery, searchCategory]);
 
   useEffect(() => {
     (async function run() {

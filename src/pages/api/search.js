@@ -3,10 +3,20 @@ import { getXataClient } from 'src/lib/xata';
 const xata = getXataClient();
 
 export default async function handler(req, res) {
-  const { query } = JSON.parse(req.body);
+  const { query, category } = JSON.parse(req.body);
+
+  const table = {
+    table: 'products'
+  };
+
+  if ( category ) {
+    table.filter = {
+      category
+    }
+  }
 
   const records = await xata.search.all(query, {
-    tables: [{ table: 'products' }],
+    tables: [table],
     fuzziness: 0,
     prefix: 'phrase',
   });
