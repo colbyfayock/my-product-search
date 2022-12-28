@@ -1,0 +1,26 @@
+{
+  "name": "demo-product-listing-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "csv-loader": "^3.0.5",
+    "next": "13.0.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.7.1",
+    "sass": "^1.56.2",
+    "use-debounce": "^9.0.2"
+  },
+  "devDependencies": {
+    "@json2csv/node": "^6.1.2",
+    "eslint": "8.29.0",
+    "eslint-config-next": "13.0.6",
+    "node-fetch": "2"
+  }
+}
