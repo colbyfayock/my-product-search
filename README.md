@@ -1,10 +1,12 @@
-# Serverless Database Search & Data Aggregation with Xata & Next.js
+# Custom Search API & Aggregations in Next.js with Xata Serverless Database
 
 Demo for tutorial [How to Build Search for a Serverless Database with Aggregations Using Xata in Next.js](https://www.youtube.com/colbyfayock)
 
 📝 Article: Coming soon...
 
 📺 Video: Coming soon...
+
+🚀 Demo: <https://my-product-search.netlify.app/>
 
 ## More tutorials and walkthroughs
 
